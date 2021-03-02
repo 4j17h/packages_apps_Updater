@@ -124,17 +124,9 @@ public class Utils {
     }
 
     public static boolean isCompatible(UpdateBaseInfo update, Context context) {
-        if (update.getVersion().compareTo(SystemProperties.get(getProjectProp(Constants.PROP_BUILD_VERSION))) < 0) {
-            Log.d(TAG, update.getName() + " is older than current Android version");
-            return false;
-        }
         if (!SystemProperties.getBoolean(getProjectProp(Constants.PROP_UPDATER_ALLOW_DOWNGRADING), false) &&
                 update.getTimestamp() <= SystemProperties.getLong(Constants.PROP_BUILD_DATE, 0)) {
             Log.d(TAG, update.getName() + " is older than/equal to the current build");
-            return false;
-        }
-        if (!update.getType().equalsIgnoreCase(getReleaseType(context))) {
-            Log.d(TAG, update.getName() + " has type " + update.getType());
             return false;
         }
         return true;
